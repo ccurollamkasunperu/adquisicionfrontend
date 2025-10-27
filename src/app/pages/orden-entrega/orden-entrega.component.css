@@ -1,0 +1,128 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+:host ::ng-deep .dropdown-menu { z-index: 2000; }
+
+.form-control {
+    border: var(--tb-border-width) solid #d5d5d5;
+}
+.form-label {
+    margin-bottom: .0rem;
+}
+.row>* {
+    margin-top: 0.6rem;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 2px 10px;
+}
+tr {
+    font-size: 12px;
+}
+.ng-select .ng-select-container {
+    min-height: 30px;
+    height: 30px;
+}
+.ng-select.ng-select-single .ng-select-container {
+    min-height: 30px;
+    height: 30px;
+}
+
+table.dataTable a {
+    color: rgb(0 0 0);
+}
+
+#tablaDataProceso {
+  overflow: visible !important;
+  padding-top: 12px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  z-index: 1050 !important;
+  position: absolute !important;
+}
+
+table.dataTable thead th, table.dataTable thead td , table.dataTable td {
+    padding: 10px 18px;
+    border-bottom: 1px solid #11111138;
+}
+
+.card {
+    border: var(--tb-card-border-width) solid #11111138;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+table.dataTable { table-layout: fixed; width: 100%; }
+
+table.dataTable td, table.dataTable th { white-space: normal; word-break: break-word; }
+
+.col-asunto, .dt-col-asunto {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+table.dataTable { table-layout: auto; width: 100%; }
+table.dataTable th, table.dataTable td {
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* No fuerces table-layout: fixed en DataTables */
+table.dataTable { table-layout: auto; width: 100%; }
+
+/* Desktop: comportarse normal, asunto con elipsis */
+.col-asunto, .dt-col-asunto {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+table.dataTable th, table.dataTable td {
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* En móvil: scroll horizontal del wrapper y no partir palabras */
+@media (max-width: 768px) {
+  .table-responsive--mobile .table {
+    min-width: 950px;      /* AJUSTA este valor a tus columnas */
+  }
+  table.dataTable th,
+  table.dataTable td {
+    white-space: nowrap;   /* evita “verticalización” del texto */
+  }
+}
+
+/* Evita que algún ancestro recorte el overlay/paginación */
+.card,
+.card-body,
+.dataTables_wrapper {
+  overflow: visible;
+}
+
+i.ri-check-line.text-success.fw-bold {
+    font-size: 15px;
+    font-weight: 900 !important;
+}
+
+.table--wide td, .table--wide th {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.dt-right {
+  text-align: right;
+}
+
+p {    
+    margin-bottom: 5px ;
+}
+.form-select-sm {
+    padding-left: 0rem;
+}

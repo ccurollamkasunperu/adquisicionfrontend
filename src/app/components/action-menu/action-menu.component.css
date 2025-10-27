@@ -1,0 +1,22 @@
+.menu{
+  display:flex;
+  flex-direction:column;
+  min-width: 180px;
+  padding:6px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+.menu > button{
+  text-align:left;
+  background:transparent;
+  border:0;
+  padding:.5rem .75rem;
+  font-size:.875rem;
+  border-radius:6px;
+  cursor:pointer;
+}
+.menu > button:hover{
+  background:#f3f4f6;
+}

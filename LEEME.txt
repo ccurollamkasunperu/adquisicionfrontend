@@ -1,0 +1,5 @@
+LEEME CTMRE:
+
+VERSION ANGULAR : @angular/cli@9.1.15
+VERSION NVM : 10.24.1
+

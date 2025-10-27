@@ -1,0 +1,143 @@
+  header {
+    background-color: #d32f2f;
+    color: white;
+    padding: 10px 0;
+    text-align: right;
+    font-size: 0.9em;
+  }
+  header a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  header a:hover {
+    text-decoration: underline;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .login-container, .reminder-container {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+  }
+  .login-container {
+    max-width: 400px;
+    width: 100%;
+  }
+  .reminder-container {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+  }
+  .login-container img {
+    display: block;
+    margin: 0 auto 20px;
+  }
+  .login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .login-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  .login-container form .input-group {
+    position: relative;
+    margin-bottom: 15px;
+  }
+  .login-container form .input-group input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .login-container form .input-group i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+  }
+  .login-container form .captcha-group {
+    display: flex;
+    align-items: center;
+  }
+  .login-container form .captcha-group img {
+    margin-right: 10px;
+  }
+  .login-container form button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .login-container form button:hover {
+    background-color: #d32f2f;
+  }
+  .login-container p {
+    text-align: center;
+    font-size: 0.9em;
+    color: #888;
+  }
+  .login-container p span {
+    color: #f44336;
+  }
+  .reminder-container h2 {
+    color: #d32f2f;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  .reminder-container p {
+    font-size: 1.2em;
+  }
+  .reminder-container p span {
+    font-weight: bold;
+  }
+  .reminder-container img {
+    margin-top: 20px;
+  }
+  footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  footer h3 {
+    margin: 0 0 10px;
+  }
+  footer p {
+    margin: 5px 0;
+  }
+  footer i {
+    margin-right: 5px;
+  }
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .footer-section {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+  }
+  .main-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #f44336, #ffcccb);
+    min-height: calc(100vh - 60px - 80px); /* Ajusta si header/footer cambian */
+    padding: 20px;
+  }

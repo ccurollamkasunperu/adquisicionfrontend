@@ -1,0 +1,176 @@
+<div *ngIf="loading" class="loading-overlay">
+  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+    <span class="sr-only">Cargando...</span>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+        <h4 class="mb-sm-0">{{titulopant}}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xxl-8 col-md-6">
+              <div>
+                <label for="" class="form-label">NÚMERO</label>
+                <p class="fw-lighter">#{{ dataOrden?.ord_numero }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">CONCEPTO</label>
+                <p class="fw-lighter">{{ dataOrden?.ord_concep }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">AREA</label>
+                <p class="fw-lighter">{{ dataOrden?.ard_descri }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">RAZÓN SOCIAL</label>
+                <p class="fw-lighter">{{ dataOrden?.prv_nomrso }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">RUC</label>
+                <p class="fw-lighter">{{ dataOrden?.prv_numruc }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">MONTO TOTAL (S/.)</label>
+                <p class="fw-lighter">{{ dataOrden?.ord_montot }}</p>
+              </div>
+            </div>
+            <div class="col-xxl-4 col-md-6">
+              <div>
+                <label for="" class="form-label">CANTIDAD DE ENTREGABLES</label>
+                <p class="fw-lighter">{{ dataOrden?.ord_canent }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">TIPO BIEN</label>
+                <p class="fw-lighter">{{ dataOrden?.tib_descri }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">ESTADO ORDEN</label>
+                <p class="fw-lighter">{{ dataOrden?.eso_descri }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">NÚMERO SIAF</label>
+                <p class="fw-lighter">{{ dataOrden?.ord_nusiaf }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">ESTADO SIAF</label>
+                <p class="fw-lighter">{{ dataOrden?.ess_descri }}</p>
+              </div>
+              <div>
+                <label for="" class="form-label">FECHA</label>
+                <p class="fw-lighter">{{ dataOrden?.ord_fecoco }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="dt-mobile-scroll" id="tablaDataProceso">
+            <table class="table align-middle table-nowrap mb-0 table--wide" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+              <thead>
+                <tr style="text-align: center;">
+                  <th scope="col" data-priority="1">N°</th>
+                  <th scope="col" data-priority="2">ENTREGABLE</th>
+                  <th scope="col" data-priority="3">FECHA ENTREGA</th>
+                  <th scope="col" data-priority="4">FECHA RECCEPCION</th>
+                  <th scope="col" data-priority="5">OBSERVACIONES</th>
+                  <th scope="col" data-priority="6">DESCRIPCIÓN CONTROL</th>
+                  <th scope="col" data-priority="7">ACCIONES</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of dataEntrega" style="text-align: center;">
+                  <td>{{item.eor_id}}</td>
+                  <td>{{item.eor_descri}}</td>
+                  <td>{{item.ent_fecent}}</td>
+                  <td>{{item.ent_fecrec}}</td>
+                  <td>
+                    <p *ngIf="item.ent_observ == null || item.ent_observ == ''; else showObserv">{{ 'SIN OBSERVACIONES' }}</p>
+                    <ng-template #showObserv>
+                      <p>{{ item.ent_observ }}</p>
+                    </ng-template>
+                  </td>
+                  <td>
+                    <p *ngIf="item.tbc_descri == null || item.tbc_descri == ''; else showDescriControl">{{ 'SIN RESPUESTA' }}</p>
+                    <ng-template #showDescriControl>
+                      <p>{{ item.tbc_descri }}</p>
+                    </ng-template>
+                  </td>
+                  <td>
+                    <div class="dropdown">
+                      <button type="button" class="btn btn-outline-primary btn-icon btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-align-justify"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-end" [attr.data-bs-container]="'body'">
+                          <li *ngIf="item.chk_botedt"><a class="dropdown-item edit-item-btn" (click)="openEditModal(item)">EDITAR</a></li>
+                          <li *ngIf="item.chk_botanu"><a class="dropdown-item edit-item-btn" (click)="getIdButton(3, item)">ANULAR</a></li>
+                          <li *ngIf="item.chk_botver"><a class="dropdown-item edit-item-btn" (click)="getIdButton(4, item)">VER</a></li>
+                          <li *ngIf="item.chk_botdoc"><a class="dropdown-item edit-item-btn" (click)="getIdButton(21, item)">DOCUMENTOS</a></li>
+                          <li *ngIf="item.chk_botcnf"><a class="dropdown-item edit-item-btn" (click)="getIdButton(19, item)">CONFORMIDAD</a></li>
+                        </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para editar/ver entrega -->
+<ng-template #EditEntregaModal>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ modalMode === 'ver' ? 'Visualizar Entrega' : 'Editar Entrega' }}</h5>
+    <button type="button" class="btn-close" (click)="modalRef && modalRef.hide()" aria-label="Close"></button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row g-2">
+      <div class="col-12">
+        <label class="form-label">ENTREGABLE</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="entregaEdit.eor_descri" readonly />
+      </div>
+      <div class="col-6">
+        <label class="form-label">FECHA <span *ngIf="modalMode === 'editar'" class="text-danger">*</span></label>
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="entregaEdit.ent_fecent" [readonly]="modalMode === 'ver'" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">RECEPCIÓN <span *ngIf="modalMode === 'editar'" class="text-danger">*</span></label>
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="entregaEdit.ent_fecrec" [readonly]="modalMode === 'ver'" />
+      </div>
+      <div class="col-12">
+        <label class="form-label">CONTROL</label>
+        <ng-select *ngIf="modalMode === 'editar'" class="form-select-sm mayus" [(ngModel)]="entregaEdit.tbc_id" [searchable]="true" placeholder="Seleccione">
+          <ng-option *ngFor="let item of dataTipoBienControl" [value]="item.tbc_id">{{ item.tbc_descri }}</ng-option>
+        </ng-select>
+        <input *ngIf="modalMode === 'ver'" type="text" class="form-control form-control-sm" [value]="entregaEdit.tbc_descri" readonly />
+      </div>
+      <div class="col-12">
+        <label class="form-label">OBSERVACIONES</label>
+        <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="entregaEdit.ent_observ" [placeholder]="modalMode === 'editar' ? 'Ingrese observaciones...' : ''"[readonly]="modalMode === 'ver'"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button *ngIf="modalMode === 'editar'" class="btn btn-success btn-sm" (click)="grabarEntrega()">
+      <i class="bx bx-save"></i> Grabar
+    </button>
+    <button class="btn btn-danger btn-sm" (click)="modalRef && modalRef.hide()">
+      <i class="bx bx-log-out"></i> Salir
+    </button>
+  </div>
+</ng-template>

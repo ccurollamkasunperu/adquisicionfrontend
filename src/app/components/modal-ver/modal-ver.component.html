@@ -1,0 +1,101 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">{{titulopant}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelar()"></button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-xl-6 col-md-6 col-sm-12">
+        <div class="row">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-primary-subtle rounded fs-3">
+                                <i class="ri-ticket-2-line text-primary"></i>
+                            </span>
+                        </div>
+                        <div class="text-end flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-16 mb-0"><b>TICKET :</b> # {{ ticket?.tkt_numero}}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>FECHA :</b> {{ ticket?.tkt_fectkt}}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>HORA :</b> {{ ticket?.tkt_hortkt}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card card-animate">
+                <div class="card-body classphrag">
+                    <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>ASUNTO :</b> {{ ticket?.tkt_asunto}}</p>
+                    <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>TEMA DE AYUDA :</b> {{ ticket?.tea_descri}}</p>
+                    <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>CELULAR :</b> {{ ticket?.tkt_numcel}}</p>
+                    <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>AGENTE ASIGNADO :</b> {{ ticket?.age_nomcom}}</p>
+                    <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>ESTADO : </b> <span class="badge text-white" [ngStyle]="{'background-color': ticket.est_colors}"> {{ticket.est_descri}} </span></p>
+                    <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>PRIORIDAD : </b> <span class="badge text-white" [ngStyle]="{'background-color': ticket.pri_colors}"> {{ticket.pri_descri}} </span></p>
+                    <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>FECHA :</b> {{ ticket?.tkt_fectkt}}</p>
+                    <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>HORA :</b> {{ ticket?.tkt_hortkt}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-md-6 col-sm-12">
+        <div class="row">
+            <div class="card carddownload">
+                <div class="card-body">
+                    <table class="table table-borderless align-middle mb-0">
+                        <thead class="table-active">
+                            <tr>
+                                <th scope="col">ARCHIVO</th>
+                                <th scope="col" style="text-align: center;">ACCION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let datoFile of dataArchivos">
+                                <td>{{datoFile.arc_nombre}}</td>
+                                <td class="text-center">
+                                    <span class="badge badge-pill badge-outline-primary"  data-key="t-custom" (click)="verArchivo(datoFile)" style="cursor: pointer;">
+                                        <i class="ri-eye-line"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card card-animate cardobservaciones">
+                <div class="card-body">
+                    <div class="cheadver">
+                        <p class="text-uppercase fw-medium text-muted text-truncate fs-13 mb-0"><b>OBSERVACIONES:</b></p>
+                    </div>
+                    <div class="text-muted">
+                        <p class="text-muted mb-0 fs-12" [innerHTML]="ticket?.tkt_observ"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger btn-sm" (click)="cancelar()"><i class="bx bx-log-in"></i> Cancelar</button>
+</div>
+
+<ng-template #previewTpl>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ previewName }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="cerrarPreview()"></button>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="isPdf; else imgTpl">
+      <iframe [src]="previewSrc" style="width:100%;min-height: 50vh;height:80vh;border:0;"></iframe>
+    </ng-container>
+    <ng-template #imgTpl>
+      <img [src]="previewSrc" style="max-width:100%;height:auto;display:block;margin:0 auto;" />
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-sm" (click)="cerrarPreview()"><i class="bx bx-log-in"></i> Cerrar</button>
+  </div>
+</ng-template>

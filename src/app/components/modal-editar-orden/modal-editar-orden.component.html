@@ -1,0 +1,132 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ modo === 'ver' ? 'Visualizar Orden' : 'Editar Orden' }}</h5>
+  <button type="button" class="btn-close" (click)="salir()" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+  
+  <div *ngIf="!cargado" class="text-center py-3">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 mb-0 small">Cargando datos...</p>
+  </div>
+  
+  <!-- 🔹 VISUALIZAR -->
+  <ng-container *ngIf="modo === 'ver'; else editarTpl">
+    <div class="row g-2">
+      <div class="col-6">
+        <label class="form-label">Tipo Bien</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.tib_descri" readonly />
+      </div>
+      <div class="col-6">
+        <label class="form-label">Estado Orden</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.eso_descri" readonly />
+      </div>
+      <div class="col-6">
+        <label class="form-label">Estado SIAF</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ess_descri" readonly />
+      </div>
+      <div class="col-6">
+        <label class="form-label">U. Orgánica</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ard_descri" readonly />
+      </div>
+      <div class="col-6">
+        <label class="form-label">Especialista</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.esp_nomcom" readonly />
+      </div>
+      <div class="col-6">
+        <label class="form-label">N° SIAF</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ord_nusiaf" readonly />
+      </div> 
+      <div class="col-4">
+        <label class="form-label">Fecha Emisión</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ord_fecoco" readonly />
+      </div>
+      <div class="col-4">
+        <label class="form-label">Fecha Notificación</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ord_fecnot" readonly />
+      </div>
+      <div class="col-4">
+        <label class="form-label">Fecha Recepción</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ord_fecrec" readonly />
+      </div>
+      <div class="col-12">
+        <label class="form-label">Concepto</label>
+        <textarea class="form-control form-control-sm" rows="2" [value]="orden.ord_concep" readonly></textarea>
+      </div>
+      <div class="col-4">
+        <label class="form-label">Sub Total</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ord_subtot" readonly />
+      </div>
+      <div class="col-4">
+        <label class="form-label">IGV Total</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ord_igvtot" readonly />
+      </div>
+      <div class="col-4">
+        <label class="form-label">Monto Total</label>
+        <input type="text" class="form-control form-control-sm" [value]="orden.ord_montot" readonly />
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- 🔹 EDITAR -->
+  <ng-template #editarTpl>
+    <div *ngIf="cargado">
+      <div class="row align-items-end g-2">
+        <!-- U. Orgánica -->
+        <div class="col-12">
+          <label class="form-label">U. Orgánica <span class="text-danger">*</span></label>
+          <ng-select
+            class="form-select-sm mayus"
+            [(ngModel)]="orden.ard_id"
+            [searchable]="true"
+            placeholder="Seleccione"
+          >
+            <ng-option *ngFor="let a of dataAreas" [value]="a.ard_id">{{ a.ard_descri }}</ng-option>
+          </ng-select>
+        </div>
+        <!-- Especialista -->
+        <div class="col-12">
+          <label class="form-label">Especialista</label>
+          <ng-select
+            class="form-select-sm mayus"
+            [(ngModel)]="orden.esp_id"
+            [searchable]="true"
+            placeholder="Seleccione"
+          >
+            <ng-option *ngFor="let e of dataEspecialistas" [value]="e.esp_id">{{ e.esp_nomcom }}</ng-option>
+          </ng-select>
+        </div>
+        <!-- N° SIAF -->
+        <div class="col-1">
+          <label class="form-label">SIAF <span class="text-danger">*</span></label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="orden.ord_nusiaf" (keypress)="soloNumeros($event)" maxlength="10" placeholder="00000" />
+        </div>
+        <div class="col-5">
+          <label class="form-label">Doc. Referencia</label>
+          <input type="text" class="form-control form-control-sm mayus" oninput="this.value = this.value.toUpperCase()" [(ngModel)]="orden.ord_docref" placeholder="Documento o referencia" />
+        </div>
+        <div class="col-2">
+          <label class="form-label">Entregable</label>
+          <input type="number" class="form-control form-control-sm" [(ngModel)]="orden.ord_canent" min="0" step="1" />
+        </div>
+        <div class="col-2">
+          <label class="form-label">Notificación</label>
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="orden.ord_fecnot" />
+        </div>
+        <div class="col-2">
+          <label class="form-label">Recepción</label>
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="orden.ord_fecrec" />
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<div class="modal-footer">
+  <button *ngIf="modo === 'editar'" class="btn btn-success btn-sm" (click)="grabar()">
+    <i class="bx bx-save"></i> Grabar
+  </button>
+  <button class="btn btn-danger btn-sm" (click)="salir()">
+    <i class="bx bx-log-out"></i> Salir
+  </button>
+</div>

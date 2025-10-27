@@ -1,0 +1,108 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+/* You can add global styles to this file, and also import other style files */
+
+app-escenarios,
+app-escenarios-ins,
+app-casos,
+app-resultados-caso,
+app-casos-ins{
+    width: 100%;
+}
+
+app-patrimonio,
+app-inventario,
+app-inventario-ins,
+app-inventario-ficha,
+app-inventario-monitor,
+app-inventario-teclado {
+    width: 100%;
+}
+
+agm-map {
+    height: 800px;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background-color: rgb(255 255 255 / 85%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+table.dataTable tbody>tr.selected,
+table.dataTable tbody>tr>.selected {
+    background-color: #0059edbf !important;
+    color: rgb(241, 241, 241) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate a.paginate_button.current,
+.dataTables_wrapper .dataTables_paginate a.paginate_button.current:hover {
+    background: unset !important;
+    background-color: #0059edbf !important;
+    border-color: #0059edbf !important;
+    color: #FFF !important;
+}
+
+.btn-info-mdsb {
+    background-color: #FFF !important;
+    border-color: #0059edbf !important;
+    color: #0059edbf !important;
+}
+
+.btn-info-mdsb:not([disabled]):hover {
+    background-color: #0059edbf !important;
+    border-color: #0059edbf !important;
+    color: #FFF !important;
+}
+
+#tablaDataProceso .dt-buttons .dt-button.buttons-excel.buttons-html5,
+#tablaDetalleProceso .dt-buttons .dt-button.buttons-excel.buttons-html5 {
+    visibility: hidden;
+}
+
+.dt-buttons {
+    visibility: hidden;
+}
+
+.padarr {
+    padding-top: 1rem;
+}
+
+div#liveScore {
+    overflow: auto;
+}
+
+.ng-input>input[type="text"] {
+    text-transform: uppercase;
+}
+
+.app-header__content {
+    background: linear-gradient(to bottom, #ffb88c, #de6262);
+}
+
+.ng-select .ng-select-container {
+    min-height: 30px;
+    height: 30px;
+}
+.ng-select.ng-select-single .ng-select-container {
+    min-height: 30px;
+    height: 30px;
+}
+.ng-select.ng-select-single .ng-select-container {
+    height: 30px;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    margin-right: 12px !important;
+}
+
+.app-menu.navbar-menu {
+    background-color: #f9f9f9;
+}

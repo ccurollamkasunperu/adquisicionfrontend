@@ -1,0 +1,96 @@
+<!-- menu.component.html -->
+<div class="app-menu navbar-menu">
+  <div class="navbar-brand-box">
+    <a routerLink="/" class="logo logo-dark">
+      <span class="logo-sm mt-5">
+        <!-- <img src="/src/assets/images/logo-sm.png" alt="" height="60" class="imgLogoSmp" /> -->
+      </span>
+      <span class="logo-lg mt-5">
+        <img src="assets/images/logo-short.png" alt="Logo" style="height:120px;" />
+      </span>
+    </a>
+    <a routerLink="/" class="logo logo-light">
+      <span class="logo-sm">
+        <!-- <img src="../../../assets/images/logo-mpl-black.png" alt="" height="26" /> -->
+      </span>
+      <span class="logo-lg">
+        <!-- <img src="../../../assets/images/logo-mpl-black.png" alt="" height="26" /> -->
+      </span>
+    </a>
+    <button
+      type="button"
+      class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+      id="vertical-hover">
+      <i class="ri-record-circle-line"></i>
+    </button>
+  </div>
+
+  <div id="scrollbar">
+    <div class="container-fluid">
+      <div id="two-column-menu"></div>
+
+      <ul class="navbar-nav" id="navbar-nav">
+        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+
+        <!-- Render de raíces -->
+        <ng-container *ngFor="let node of menuTree; trackBy: trackById">
+          <ng-container
+            [ngTemplateOutlet]="renderNode"
+            [ngTemplateOutletContext]="{ node: node, level: 0, parentPath: '' }">
+          </ng-container>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sidebar-background"></div>
+</div>
+
+<!-- Template recursivo -->
+<ng-template #renderNode let-node="node" let-level="level" let-parentPath="parentPath">
+  <li class="nav-item" [ngClass]="{ 'has-children': node.children && node.children.length }">
+
+    <!-- PADRE: abre/cierra con Bootstrap collapse -->
+    <a *ngIf="node.children && node.children.length; else leafLink"
+      class="nav-link menu-link d-flex align-items-center"
+      href="{{ '#c' + node.id }}"
+      data-bs-toggle="collapse"
+      role="button"
+      [attr.aria-controls]="'c' + node.id"
+      [attr.aria-expanded]="isBranchActive(node) ? 'true' : 'false'"
+      [class.collapsed]="!isBranchActive(node)">
+      <i class="bi" [ngClass]="level === 0 ? 'bi-person-circle' : 'bi-dot'"></i>
+      <span class="ms-2 flex-grow-1">{{ node.label }}</span>
+    </a>
+
+    <!-- HOJA: navega con Angular -->
+    <ng-template #leafLink>
+      <a class="nav-link menu-link d-flex align-items-center"
+        [routerLink]="['/', normalizeLink(node.enlace)]"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <i class="bi" [ngClass]="level === 0 ? 'bi-hdd-stack' : 'bi-dot'"></i>
+        <span class="ms-2">{{ node.label }}</span>
+      </a>
+    </ng-template>
+
+    <!-- SUBMENÚ: Bootstrap gestionará show/hidden; forzamos 'show' si hay ruta activa -->
+    <div *ngIf="node.children && node.children.length"
+        class="collapse menu-dropdown"
+        [id]="'c' + node.id"
+        [class.show]="isBranchActive(node)">
+      <ul class="nav nav-sm flex-column">
+        <ng-container *ngFor="let child of node.children; trackBy: trackById">
+          <ng-container
+            [ngTemplateOutlet]="renderNode"
+            [ngTemplateOutletContext]="{
+              node: child,
+              level: level + 1,
+              parentPath: buildFullPath(parentPath, node)
+            }">
+          </ng-container>
+        </ng-container>
+      </ul>
+    </div>
+  </li>
+</ng-template>

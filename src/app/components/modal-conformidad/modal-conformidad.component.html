@@ -1,0 +1,143 @@
+<div class="modal-body">
+  <div *ngIf="!cargado" class="loading-overlay-modal">
+    <p class="mt-2 mb-0 small">Cargando datos...</p>
+  </div>
+
+  <div *ngIf="cargado">
+    <div *ngIf="!loading">
+      <div class="modal-header">
+        <h5 class="modal-title">CONFORMIDAD DE ENTREGA</h5>
+        <button type="button" class="btn-close" (click)="cerrar()" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row mb-3 text-center">
+          <div class="col-md-4 col-sm-12">
+            <label class="form-label d-block"><strong>N°:</strong></label>
+            <p class="fw-light">{{ entrega?.eor_id || 'Sin entregable' }}</p>
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <label class="form-label d-block"><strong>ENTREGABLE:</strong></label>
+            <p class="fw-light">{{ entrega?.eor_descri || 'Sin entregable' }}</p>
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <label class="form-label d-block"><strong>FECHA ENTREGABLE:</strong></label>
+            <p class="fw-light">{{ entrega?.ent_fecent || 'Sin fecha' }}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div *ngIf="showForm" class="col-md-4 mb-3 border-end">
+            <h6 class="mb-3 fw-semibold">REGISTRAR CONFORMIDAD</h6>
+            <form [class.form-disabled]="bloquearCampos" (ngSubmit)="guardarConformidad()" #formConformidad="ngForm">
+              <div class="row mb-2">
+                <div class="col-md-6 col-sm-12">
+                  <label class="form-label">EMISIÓN</label>
+                  <input type="date" class="form-control form-control-sm" [disabled]="bloquearCampos" name="p_cnf_fecemi" [(ngModel)]="nuevoRegistro.p_cnf_fecemi" required #inputEmision />
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <label class="form-label">MONTO(S/.)</label>
+                  <input type="text" class="form-control form-control-sm text-end" [disabled]="bloquearCampos" name="p_cnf_monpre" [(ngModel)]="nuevoRegistro.p_cnf_monpre" (input)="onMontoInput($event)" (blur)="onMontoBlur()" placeholder="0.00" />
+                </div>
+              </div>
+
+              <div class="form-check mb-1">
+                <input class="form-check-input" type="checkbox" id="chkCumplePrestacion" [disabled]="bloquearCampos" name="p_cnf_cumpre" [(ngModel)]="nuevoRegistro.p_cnf_cumpre" [value]="1" (change)="toggleCheckbox($event, 'p_cnf_cumpre')" />
+                <label class="form-check-label" for="chkCumplePrestacion">
+                  Cumple con la Prestación
+                </label>
+              </div>
+
+              <div class="form-check mb-1">
+                <input class="form-check-input" type="checkbox" id="chkCumplePlazos" [disabled]="bloquearCampos" name="p_cnf_cumplz" [(ngModel)]="nuevoRegistro.p_cnf_cumplz" [value]="1" (change)="toggleCheckbox($event, 'p_cnf_cumplz')" />
+                <label class="form-check-label" for="chkCumplePlazos">
+                  Cumple con los Plazos
+                </label>
+              </div>
+
+              <div class="form-check mb-1">
+                <input class="form-check-input" type="checkbox" id="chkConfidencialidad" [disabled]="bloquearCampos" name="p_cnf_conent" [(ngModel)]="nuevoRegistro.p_cnf_conent" [value]="1" (change)="toggleCheckbox($event, 'p_cnf_conent')" />
+                <label class="form-check-label" for="chkConfidencialidad">
+                  Confidencialidad en la Entrega
+                </label>
+              </div>
+
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="chkCustodia" [disabled]="bloquearCampos" name="p_cnf_cuprau" [(ngModel)]="nuevoRegistro.p_cnf_cuprau" [value]="1" (change)="toggleCheckbox($event, 'p_cnf_cuprau')" />
+                <label class="form-check-label" for="chkCustodia">
+                  Custodia del Producto por el Área Usuaria
+                </label>
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label">OBSERVACIONES</label>
+                <textarea class="form-control form-control-sm" [disabled]="bloquearCampos" name="p_cnf_observ" [(ngModel)]="nuevoRegistro.p_cnf_observ" rows="3" placeholder="Escriba una observación..."></textarea>
+              </div>
+
+              <div class="d-flex justify-content-between mt-3">
+                <button type="submit" class="btn btn-success btn-sm"[disabled]="formConformidad.invalid || bloquearCampos"[class.btn-disabled]="bloquearCampos"><i class="bx bx-save"></i> Guardar</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" (click)="cancelarNuevo()" [disabled]="bloquearCampos" [class.btn-disabled]="bloquearCampos"> <i class="bx bx-x"></i> Cancelar</button>
+              </div>
+            </form>
+          </div>
+
+          <div [ngClass]="showForm ? 'col-md-8' : 'col-md-12'">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="fw-semibold mb-0">LISTADO DE CONFORMIDADES</h6>
+              <button class="btn btn-success btn-sm" (click)="abrirNuevo()" *ngIf="tienePermiso(1) && dataConformidad.length == 0 && bloquearCampos">
+                <i class="bx bx-plus"></i> Nuevo
+              </button>
+            </div>
+
+            <div class="card mb-0">
+              <div class="card-body p-0">
+                <div class="dt-mobile-scroll" id="tablaConformidad">
+                  <table class="table align-middle table-nowrap mb-0 table--wide"
+                         datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                    <thead class="table-light">
+                      <tr style="text-align: center;">
+                        <th>EMISIÓN</th>
+                        <th>C. PRESTA.</th>
+                        <th>C. PLAZOS.</th>
+                        <th>C. ENTREGA</th>
+                        <th>P. AREA U.</th>
+                        <th>ACCIONES</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of dataConformidad; let i = index" style="text-align: center;">
+                        <td>{{ item.cnf_fecemi }}</td>
+                        <td><i [ngClass]="item.chk_cumpre == 1 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger'"></i></td>
+                        <td><i [ngClass]="item.chk_cumplz == 1 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger'"></i></td>
+                        <td><i [ngClass]="item.chk_conent == 1 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger'"></i></td>
+                        <td><i [ngClass]="item.chk_cuprau == 1 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger'"></i></td>
+                        <td>
+                          <div class="dropdown" *ngIf="bloquearCampos">
+                            <button type="button" class="btn btn-outline-primary btn-icon btn-sm dropdown-toggle" data-bs-toggle="dropdown"></button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                              <li><a class="dropdown-item" (click)="editarConformidad(item)">EDITAR</a></li>
+                              <li><a class="dropdown-item text-success">EMITIR</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr *ngIf="dataConformidad.length === 0">
+                        <td colspan="7" class="text-center text-muted py-3">No hay registros disponibles</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-danger btn-sm" (click)="cerrar()">
+          <i class="bx bx-log-out"></i> Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

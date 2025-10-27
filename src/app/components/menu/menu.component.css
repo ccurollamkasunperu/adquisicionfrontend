@@ -1,0 +1,31 @@
+/* Chevron a la derecha y rotación cuando el colapso está abierto */
+.menu-caret {
+  margin-left: auto;
+  transition: transform .2s ease, opacity .2s ease;
+  opacity: .7;
+  font-size: .9rem;
+}
+
+/* Bootstrap añade/quita .collapsed al trigger automáticamente */
+a.menu-link:not(.collapsed) .menu-caret {
+  transform: rotate(90deg);
+  opacity: 1;
+}
+
+/* Subniveles un poco más sutiles */
+.nav .bi-dot {
+  font-size: 1.1rem;
+  opacity: .6;
+}
+
+.menu-caret {
+  margin-left: auto;
+  transition: transform .2s ease, opacity .2s ease;
+  opacity: .7;
+  font-size: .9rem;
+}
+
+a.menu-link:not(.collapsed) .menu-caret {
+  transform: rotate(90deg);
+  opacity: 1;
+}

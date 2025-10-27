@@ -1,0 +1,14 @@
+<router-outlet *ngIf="login"></router-outlet>
+<div *ngIf="!login">
+  <div id="layout-wrapper">
+    <app-menu></app-menu>
+    <app-navbar></app-navbar>
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
