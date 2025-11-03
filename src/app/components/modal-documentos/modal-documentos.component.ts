@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgxDropzoneComponent } from 'ngx-dropzone';
+import { HttpEventType } from '@angular/common/http';
+
 interface ExistingFile {
   edo_id: number;
   ent_id: number;
@@ -379,15 +381,17 @@ export class ModalDocumentosComponent implements OnInit {
     }
     this.pendingDeletes = [];
   }
+
   guardar() {
     if (!this.entrega || !this.entrega.ent_id) {
       Swal.fire('Error', 'No se ha identificado la entrega.', 'error');
       return;
     }
+
     if (this.files.length === 0 && this.pendingDeletes.length > 0) {
       Swal.fire({
         title: 'Confirmar cambios',
-        text: `Se eliminarán ${this.pendingDeletes.length} archivo(s) existente(s). ¿Desea continuar?`,
+        text: 'Se eliminarán ' + this.pendingDeletes.length + ' archivo(s) existente(s). ¿Desea continuar?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sí, eliminar',
@@ -410,44 +414,53 @@ export class ModalDocumentosComponent implements OnInit {
       });
       return;
     }
+
     if (this.files.length === 0 && this.pendingDeletes.length === 0) {
       Swal.fire('Info', 'No hay cambios para guardar.', 'info');
       return;
     }
+
     const form = new FormData();
     form.append('p_ent_id', String(this.entrega.ent_id));
     form.append('p_usu_id', String(Number(localStorage.getItem('usuario') || 0)));
     this.files.forEach(f => form.append('files[]', f));
+
     this.uploading = true;
     this.uploadProgress = 0;
-    this.api.getentregadocumentosgra(form).subscribe({
-      next: (evt: any) => {
-        const type = (evt && evt.type) ? evt.type : null;
-        if (type === 1 && evt.total) {
-          this.uploadProgress = Math.round(100 * (evt.loaded / evt.total));
-        }
-        if (type === 4) {
-          this.uploading = false;
-          this.uploadProgress = 100;
-          const res = evt.body;
-          const r = Array.isArray(res) ? res[0] : res;
-          if (r && r.error === 0) {
-            Swal.fire('Éxito', r.mensa || 'Archivos subidos correctamente', 'success');
-            this.eliminarPendientes().then(() => this.loadExistingFiles());
-            this.files = [];
-          } else {
-            Swal.fire('Error', (r && r.mensa) ? r.mensa : 'Error al subir archivos', 'error');
+
+    // 👇 Llamada simple: sin reportProgress ni observe:'events'
+    this.api.postQuery('adquisicion/entregadocumentosgra', form).subscribe({
+      next: (res: any) => {
+        this.uploading = false;
+
+        if (res && res.success) {
+          const archivos = Array.isArray(res.archivos) ? res.archivos : [];
+          const totalOk = archivos.filter(a => a.status === 'ok').length;
+          const totalErr = archivos.filter(a => a.status !== 'ok').length;
+
+          let mensaje = res.message || 'Archivos procesados correctamente.';
+          if (totalOk > 0 && totalErr > 0) {
+            mensaje += ' (' + totalOk + ' subidos, ' + totalErr + ' con error)';
+          } else if (totalOk > 0) {
+            mensaje += ' (' + totalOk + ' archivo(s) subido(s))';
           }
+
+          Swal.fire('Éxito', mensaje, 'success');
+          this.eliminarPendientes().then(() => this.loadExistingFiles());
+          this.files = [];
+        } else {
+          const msgError = (res && res.message) ? res.message : 'Error al subir los archivos.';
+          Swal.fire('Error', msgError, 'error');
         }
       },
       error: (err) => {
-        this.uploading = false;
-        this.uploadProgress = 0;
         console.error('Error upload:', err);
+        this.uploading = false;
         Swal.fire('Error', 'No se pudo subir los archivos.', 'error');
       }
     });
   }
+
   cerrar() {
     this.modalRef.hide();
     this.onClose.emit();

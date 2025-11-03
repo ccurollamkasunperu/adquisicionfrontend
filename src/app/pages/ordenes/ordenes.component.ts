@@ -9,6 +9,7 @@ import { Subject } from "rxjs";
 import { analyzeAndValidateNgModules } from "@angular/compiler";
 import { ModalEditarOrdenComponent } from 'src/app/components/modal-editar-orden/modal-editar-orden.component';
 import { ModalDocumentosComponent } from 'src/app/components/modal-documentos/modal-documentos.component';
+import { ModalDocumentosOrdenesComponent } from 'src/app/components/modal-documentos-ordenes/modal-documentos-ordenes.component';
 import swal from "sweetalert2";
 import * as XLSX from 'xlsx';
 interface PermisoBtn {
@@ -160,10 +161,10 @@ export class OrdenesComponent implements OnInit {
   };
   constructor(
     private router: Router,
+    private crypto: CryptoService,
+    private app: AppComponent,
     private modalService: BsModalService,
     private api: ApiService,
-    private appComponent: AppComponent,
-    private crypto: CryptoService
   ) {
   }
   ngOnInit(): void {
@@ -365,8 +366,9 @@ export class OrdenesComponent implements OnInit {
       return [];
     }
   }
-  getIdButton(bot_id: number, item: any) {
-    console.log('Botón presionado:', bot_id, 'para ticket:', item.ord_id);
+  
+  getIdButton(bot_id: number, item: any): void {
+    console.log('Botón presionado:', bot_id, 'para ticket:', item && item.ord_id);
     this.selectedTicket = item;
     switch (bot_id) {
       case 1:
@@ -377,7 +379,9 @@ export class OrdenesComponent implements OnInit {
             modo: 'editar'
           }
         });
-        this.modalRef.content.onClose.subscribe(() => this.loadDataProceso());
+        if (this.modalRef && this.modalRef.content && this.modalRef.content.onClose) {
+          this.modalRef.content.onClose.subscribe(() => this.loadDataProceso());
+        }
         break;
       case 2:
         this.modalRef = this.modalService.show(this.OpenModalEditarTicket);
@@ -422,26 +426,45 @@ export class OrdenesComponent implements OnInit {
             entrega: { ...item }
           }
         });
-        this.modalRef.content.onClose.subscribe(() => this.loadDataProceso());
+        if (this.modalRef && this.modalRef.content && this.modalRef.content.onClose) {
+          this.modalRef.content.onClose.subscribe(() => this.loadDataProceso());
+        }
         break;
-        case 18:
-          if (item && item.ord_id != null) {
-            (async () => {
-              try {
-                const token = await this.crypto.encrypt(String(item.ord_id));
-                this.router.navigate(['/entregas', token]);
-              } catch (err) {
-                console.error('Error en cifrado:', err);
-                swal.fire('Error', 'No se pudo cifrar el identificador. Intenta nuevamente.', 'error');
-              }
-            })();
-          }
-          break;
+      case 18:
+        if (item && item.ord_id != null) {
+          (async () => {
+            try {
+              const token = await this.crypto.encrypt(String(item.ord_id));
+              this.router.navigate(['/entregas', token]);
+            } catch (err) {
+              console.error('Error en cifrado:', err);
+              swal.fire('Error', 'No se pudo cifrar el identificador. Intenta nuevamente.', 'error');
+            }
+          })();
+        }
+        break;
+      case 24:
+        this.openModalDocumentosOrden(item);
+        break;
       default:
         console.warn('Botón no reconocido:', bot_id);
         break;
     }
   }
+
+  openModalDocumentosOrden(orden: any) {
+    const initialState = {
+      orden: orden
+    };
+
+    this.modalRef = this.modalService.show(ModalDocumentosOrdenesComponent, {
+      class: 'modal-lg',
+      backdrop: 'static',
+      keyboard: false,
+      initialState: initialState
+    });
+  }
+
   openImportModal() {
     this.selectedFileName = '';
     this.fileToUpload = null;

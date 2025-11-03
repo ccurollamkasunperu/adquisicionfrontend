@@ -184,6 +184,46 @@ export class ModalConformidadComponent implements OnInit {
       }
     }, 200);
   }
+  emitirConformidad(item: any) {
+    Swal.fire({
+      title: '¿Emitir conformidad?',
+      text: 'Se generará el informe oficial en formato PDF.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, emitir',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const payload = { p_cnf_id: item.cnf_id };
+        this.api.getconformidademi(payload).subscribe({
+          next: (res: any) => {
+            if (res && res.success) {
+              const base64 = res.base64;
+              const blob = this.base64ToBlob(base64, 'application/pdf');
+              const url = URL.createObjectURL(blob);
+              window.open(url, '_blank'); // o mostrar en modal PDF viewer
+              Swal.fire('Éxito', 'Conformidad emitida correctamente.', 'success');
+            } else {
+              Swal.fire('Error', res.message || 'No se pudo generar el PDF.', 'error');
+            }
+          },
+          error: () => Swal.fire('Error', 'Error al conectar con el servidor.', 'error')
+        });
+      }
+    });
+  }
+  base64ToBlob(base64: string, type: string): Blob {
+    const byteChars = atob(base64);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteChars.length; offset += 512) {
+      const slice = byteChars.slice(offset, offset + 512);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) byteNumbers[i] = slice.charCodeAt(i);
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    return new Blob(byteArrays, { type });
+  }
   guardarConformidad() {
     const monto = this.getMontoNumerico();
     const payload = {
