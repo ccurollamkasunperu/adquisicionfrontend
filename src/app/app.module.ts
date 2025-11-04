@@ -37,6 +37,7 @@ import { ModalDocumentosComponent } from './components/modal-documentos/modal-do
 import { OrdenEntregaComponent } from './pages/orden-entrega/orden-entrega.component';
 import { ModalConformidadComponent } from "./components/modal-conformidad/modal-conformidad.component";  
 import { ModalDocumentosOrdenesComponent } from "./components/modal-documentos-ordenes/modal-documentos-ordenes.component";
+import { ModalConformidadDocumentoComponent } from './components/modal-conformidad-documento/modal-conformidad-documento.component';
 
 registerLocaleData(localeEs);
 
@@ -57,7 +58,8 @@ registerLocaleData(localeEs);
     ModalDocumentosComponent,
     OrdenEntregaComponent,
     ModalConformidadComponent,
-    ModalDocumentosOrdenesComponent
+    ModalDocumentosOrdenesComponent,
+    ModalConformidadDocumentoComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +95,7 @@ registerLocaleData(localeEs);
       useValue: 'es-PE'
     }
   ],
-  entryComponents: [ActionMenuComponent, ModalEditarOrdenComponent, ModalDocumentosComponent, ModalConformidadComponent, ModalDocumentosOrdenesComponent],
+  entryComponents: [ActionMenuComponent, ModalEditarOrdenComponent, ModalDocumentosComponent, ModalConformidadComponent, ModalDocumentosOrdenesComponent, ModalConformidadDocumentoComponent],
   exports: [ActionMenuComponent],
   bootstrap: [AppComponent],
 })

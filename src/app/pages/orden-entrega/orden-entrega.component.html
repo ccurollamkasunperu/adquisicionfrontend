@@ -113,7 +113,7 @@
                       <button type="button" class="btn btn-outline-primary btn-icon btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-align-justify"></i></button>
                         <ul class="dropdown-menu dropdown-menu-end" [attr.data-bs-container]="'body'">
                           <li *ngIf="item.chk_botedt"><a class="dropdown-item edit-item-btn" (click)="openEditModal(item)">EDITAR</a></li>
-                          <li *ngIf="item.chk_botanu"><a class="dropdown-item edit-item-btn" (click)="getIdButton(3, item)">ANULAR</a></li>
+                          <!-- <li *ngIf="item.chk_botanu"><a class="dropdown-item edit-item-btn" (click)="getIdButton(3, item)">ANULAR</a></li> -->
                           <li *ngIf="item.chk_botver"><a class="dropdown-item edit-item-btn" (click)="getIdButton(4, item)">VER</a></li>
                           <li *ngIf="item.chk_botdoc"><a class="dropdown-item edit-item-btn" (click)="getIdButton(21, item)">DOCUMENTOS</a></li>
                           <li *ngIf="item.chk_botcnf"><a class="dropdown-item edit-item-btn" (click)="getIdButton(19, item)">CONFORMIDAD</a></li>

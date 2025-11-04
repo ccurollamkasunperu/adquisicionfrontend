@@ -209,6 +209,20 @@ export class ApiService {
       })
     );
   }
+  getconformidaddocumentogra(data: object) {
+    return this.postQuery('adquisicion/conformidaddocumentogra', data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getconformidaddocumentoanu(data: object) {
+    return this.postQuery('adquisicion/conformidaddocumentoanu', data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
   getordendocumentoreg(data: object) {
     return this.postQuery('adquisicion/ordendocumentoreg', data).pipe(
       map((data) => {

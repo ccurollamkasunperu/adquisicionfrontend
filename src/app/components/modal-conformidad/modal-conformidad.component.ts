@@ -2,6 +2,9 @@ import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef }
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ApiService } from 'src/app/services/api.service';
 import Swal from 'sweetalert2';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { ModalConformidadDocumentoComponent } from '../modal-conformidad-documento/modal-conformidad-documento.component';
+
 @Component({
   selector: 'app-modal-conformidad',
   templateUrl: './modal-conformidad.component.html',
@@ -30,13 +33,31 @@ export class ModalConformidadComponent implements OnInit {
   permisos: any = null;
   constructor(
     public modalRef: BsModalRef,
-    private api: ApiService
+    private api: ApiService,
+    private modalService: BsModalService
   ) {}
   ngOnInit(): void {
     this.cargado = false;
     this.loadPermisos();
     this.loadConformidades();
   }
+
+  abrirModalAnexar(item: any) {
+    const modalRef = this.modalService.show(ModalConformidadDocumentoComponent, {
+      class: 'modal-lg modal-dialog-centered',
+      backdrop: true,
+      ignoreBackdropClick: true,
+      keyboard: false,
+      initialState: {
+        conformidad: item
+      }
+    });
+
+    modalRef.content.onClose.subscribe(() => {
+      this.loadConformidades();
+    });
+  }
+
   loadPermisos() {
     try {
       const raw = localStorage.getItem('objetosMenu');
@@ -201,7 +222,7 @@ export class ModalConformidadComponent implements OnInit {
               const base64 = res.base64;
               const blob = this.base64ToBlob(base64, 'application/pdf');
               const url = URL.createObjectURL(blob);
-              window.open(url, '_blank'); // o mostrar en modal PDF viewer
+              window.open(url, '_blank');
               Swal.fire('Éxito', 'Conformidad emitida correctamente.', 'success');
             } else {
               Swal.fire('Error', res.message || 'No se pudo generar el PDF.', 'error');
