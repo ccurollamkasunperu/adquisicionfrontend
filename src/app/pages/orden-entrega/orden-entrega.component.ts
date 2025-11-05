@@ -353,13 +353,20 @@ export class OrdenEntregaComponent implements OnInit {
           this.openViewModal(item);
           break;
         case 21:
-          this.modalRef = this.modalService.show(ModalDocumentosComponent, {
+            this.modalRef = this.modalService.show(ModalDocumentosComponent, {
               class: 'modal-xl modal-dialog-centered',
+              backdrop: 'static',
+              ignoreBackdropClick: true,
               initialState: {
                 entrega: { ...item },
                 permisos: this.jsn_permis
               }
             });
+            const modalInstancia = this.modalRef.content as ModalDocumentosComponent;
+            modalInstancia.onClose.subscribe(() => {
+              this.loadDataProceso();
+            });
+            setTimeout(() => (this.loading = false), 300);
           break;
         case 19:
           this.loading = true;
@@ -409,6 +416,14 @@ export class OrdenEntregaComponent implements OnInit {
       this.api.gettipobiencontrolsel(data_post).subscribe((data: any) => {
         this.dataTipoBienControl = data;
       });
+    }
+    getFechaFormateada(fecha: string): string {
+      if (!fecha) return 'Sin fecha';
+      const d = new Date(fecha);
+      const dia = String(d.getDate()).padStart(2, '0');
+      const mes = String(d.getMonth() + 1).padStart(2, '0');
+      const anio = d.getFullYear();
+      return `${dia}-${mes}-${anio}`;
     }
     grabarEntrega() {
       if (!this.entregaEdit.ent_fecent || !this.entregaEdit.ent_fecrec) {

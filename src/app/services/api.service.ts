@@ -132,6 +132,13 @@ export class ApiService {
       })
     );
   }
+  getespecialistaard(data: object) {
+    return this.postQuery('adquisicion/especialistaard', data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
   getentregalis(data: object) {
     return this.postQuery('adquisicion/entregalis', data).pipe(
       map((data) => {

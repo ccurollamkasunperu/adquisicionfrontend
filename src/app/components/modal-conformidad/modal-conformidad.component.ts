@@ -205,6 +205,16 @@ export class ModalConformidadComponent implements OnInit {
       }
     }, 200);
   }
+
+  getFechaFormateada(fecha: string): string {
+    if (!fecha) return 'Sin fecha';
+    const d = new Date(fecha);
+    const dia = String(d.getDate()).padStart(2, '0');
+    const mes = String(d.getMonth() + 1).padStart(2, '0');
+    const anio = d.getFullYear();
+    return `${dia}-${mes}-${anio}`;
+  }
+
   emitirConformidad(item: any) {
     Swal.fire({
       title: '¿Emitir conformidad?',
@@ -215,20 +225,46 @@ export class ModalConformidadComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
+        // 🔹 Mostrar loading mientras se genera el PDF
+        Swal.fire({
+          title: 'Generando documento...',
+          html: 'Por favor, espere unos segundos.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          onOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
         const payload = { p_cnf_id: item.cnf_id };
         this.api.getconformidademi(payload).subscribe({
           next: (res: any) => {
+            Swal.close(); // ✅ Cierra el loading
             if (res && res.success) {
               const base64 = res.base64;
               const blob = this.base64ToBlob(base64, 'application/pdf');
               const url = URL.createObjectURL(blob);
               window.open(url, '_blank');
-              Swal.fire('Éxito', 'Conformidad emitida correctamente.', 'success');
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'Conformidad emitida correctamente.',
+                timer: 2000,
+                showConfirmButton: false
+              });
             } else {
-              Swal.fire('Error', res.message || 'No se pudo generar el PDF.', 'error');
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: res.message || 'No se pudo generar el PDF.'
+              });
             }
           },
-          error: () => Swal.fire('Error', 'Error al conectar con el servidor.', 'error')
+          error: () => {
+            Swal.close(); // ✅ Cierra loading si hay error
+            Swal.fire('Error', 'Error al conectar con el servidor.', 'error');
+          }
         });
       }
     });

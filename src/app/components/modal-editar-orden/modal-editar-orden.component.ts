@@ -14,6 +14,7 @@ export class ModalEditarOrdenComponent implements OnInit {
   dataAreas: any[] = [];
   dataEspecialistas: any[] = [];
   cargado = false;
+  loadingEspecialista: boolean = false;
   constructor(public modalRef: BsModalRef, private api: ApiService) {}
   ngOnInit(): void {
     console.log('Orden recibida:', this.orden);
@@ -50,6 +51,46 @@ export class ModalEditarOrdenComponent implements OnInit {
       this.cargado = true;
     });
   }
+
+  onAreaChange(ard_id: number) {
+    if (!ard_id) {
+      this.orden.esp_id = null;
+      return;
+    }
+
+    this.loadingEspecialista = true; // 🔹 activar spinner
+
+    const payload = {
+      p_esp_id: 0,
+      p_ard_id: Number(ard_id)
+    };
+
+    this.api.getespecialistaard(payload).subscribe({
+      next: (res: any[]) => {
+        if (Array.isArray(res) && res.length > 0) {
+          const especialista = res[0];
+          if (especialista.esp_id) {
+            this.orden.esp_id = especialista.esp_id;
+            console.log('✅ Especialista asignado automáticamente:', especialista.esp_nomcom);
+          } else {
+            this.orden.esp_id = null;
+            console.log('⚠️ No se encontró especialista para el área seleccionada.');
+          }
+        } else {
+          this.orden.esp_id = null;
+          console.log('⚠️ No hay respuesta válida del servicio especialistaard.');
+        }
+        this.loadingEspecialista = false; // 🔹 desactivar spinner
+      },
+      error: (err) => {
+        console.error('❌ Error al obtener especialista:', err);
+        this.orden.esp_id = null;
+        this.loadingEspecialista = false; // 🔹 desactivar spinner
+      }
+    });
+  }
+
+
   soloNumeros(event: KeyboardEvent): boolean {
     const charCode = event.which ? event.which : event.keyCode;
     if (charCode < 48 || charCode > 57) {

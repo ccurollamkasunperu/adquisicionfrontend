@@ -99,7 +99,7 @@
                   <button type="button" class="btn btn-primary btn-outline-primary btn-sm text-white d-flex justify-content-center align-items-center gap-1" id="buscar" (click)="loadDataProceso()">
                     <i class="ri-search-line"></i> BUSCAR </button>
                   <button type="button" class="btn btn-warning btn-outline-warning btn-sm text-white d-flex justify-content-center align-items-center gap-1" id="buscar" (click)="openImportModal()">
-                    <i class="ri-search-line"></i> IMPORTAR </button>
+                    <i class="ri-file-line"></i> IMPORTAR </button>
                   <button *ngIf="btnPerm.excel" type="button" class="btn btn-success btn-sm text-white d-flex justify-content-center align-items-center gap-1" id="descargaExcel" (click)="descargaExcel()" [disabled]="!exportarHabilitado">
                     <i class="ri-file-excel-2-line"></i> EXPORTAR </button>
                 </div>
@@ -134,7 +134,7 @@
                     <p class="fw-bold">{{item.ord_numero}}</p>
                   </td>
                   <td>{{item.tib_descri}}</td>
-                  <td>{{item.ord_fecoco}}</td>
+                  <td>{{getFechaFormateada(item.ord_fecoco)}}</td>
                   <td>{{item.prv_nomrso}}</td>
                   <td>{{item.ord_concep}}</td>
                   <td>{{item.ord_nusiaf}}</td>
@@ -169,7 +169,7 @@
   <div class="modal-body">
     <div class="mb-3">
       <label for="fileInput" class="form-label">Seleccione un archivo</label>
-      <input type="file" id="fileInput" (change)="onFileSelected($event)" class="form-control" />
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" class="form-control" accept=".xls,.xlsx" />
     </div>
     <div *ngIf="selectedFileName" class="mb-2">
       <strong>Archivo seleccionado:</strong> {{selectedFileName}}

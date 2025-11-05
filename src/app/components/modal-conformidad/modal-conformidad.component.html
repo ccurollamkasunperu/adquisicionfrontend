@@ -22,7 +22,7 @@
           </div>
           <div class="col-md-4 col-sm-12">
             <label class="form-label d-block"><strong>FECHA ENTREGABLE:</strong></label>
-            <p class="fw-light">{{ entrega?.ent_fecent || 'Sin fecha' }}</p>
+            <p class="fw-light">{{ getFechaFormateada(entrega?.ent_fecent) || 'Sin fecha' }}</p>
           </div>
         </div>
 
@@ -106,7 +106,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of dataConformidad; let i = index" style="text-align: center;">
-                        <td>{{ item.cnf_fecemi }}</td>
+                        <td>{{ getFechaFormateada(item.cnf_fecemi) }}</td>
                         <td><i [ngClass]="item.chk_cumpre == 1 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger'"></i></td>
                         <td><i [ngClass]="item.chk_cumplz == 1 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger'"></i></td>
                         <td><i [ngClass]="item.chk_conent == 1 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger'"></i></td>

@@ -27,6 +27,7 @@ interface ExistingFile {
   styleUrls: ['./modal-documentos.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
+
 export class ModalDocumentosComponent implements OnInit {
   @Input() entrega: any;
   @Input() permisos: any[] = [];
@@ -82,13 +83,10 @@ export class ModalDocumentosComponent implements OnInit {
           ? JSON.parse(match.jsn_permis)
           : match.jsn_permis;
         this.permisosDoc = Array.isArray(parsed) ? parsed : [];
-        console.log('✅ Permisos DOCUMENTOS:', this.permisosDoc);
       } catch (e) {
-        console.error('Error al parsear jsn_permis:', e);
         this.permisosDoc = [];
       }
     } else {
-      console.warn('⚠️ No se encontró el objeto DOCUMENTOS (obj_id=24) en objetosMenu');
     }
   }
   obtenerObjId(): void {
@@ -96,9 +94,7 @@ export class ModalDocumentosComponent implements OnInit {
     if (match) {
       this.objActual = match;
       this.objId = match.obj_id;
-      console.log('📦 Objeto actual encontrado:', this.objId, match);
     } else {
-      console.warn('⚠️ No se encontró el objeto DOCUMENTOS (reporte-adquisicion) en objetosMenu');
     }
   }
   loadExistingFiles() {
@@ -128,7 +124,6 @@ export class ModalDocumentosComponent implements OnInit {
         }));
       },
       error: (err) => {
-        console.error('Error al cargar documentos:', err);
         Swal.fire('Error', 'No se pudieron cargar los documentos existentes.', 'error');
       }
     });
@@ -177,7 +172,6 @@ export class ModalDocumentosComponent implements OnInit {
             } catch (e) {}
             this.files.push(f);
           } else {
-            console.log('⏩ Archivo omitido:', f.name);
           }
         });
         continue;
@@ -268,7 +262,6 @@ export class ModalDocumentosComponent implements OnInit {
       },
       error: (err) => {
         Swal.close();
-        console.error('Error al cargar archivo:', err);
         Swal.fire('Error', 'No se pudo cargar el archivo para previsualizar.', 'error');
       }
     });
@@ -280,13 +273,11 @@ export class ModalDocumentosComponent implements OnInit {
         const iframeEl = document.querySelector('iframe');
         if (iframeEl && iframeEl instanceof HTMLIFrameElement) {
           iframeEl.onerror = () => {
-            console.warn('⚠️ No se pudo renderizar el PDF en el modal, abriendo en nueva pestaña...');
             window.open(blobUrl, '_blank');
           };
         }
       }, 1000);
     } catch (err) {
-      console.error('Error mostrando PDF:', err);
       window.open(blobUrl, '_blank');
     }
   }
@@ -310,14 +301,15 @@ export class ModalDocumentosComponent implements OnInit {
       if (!w) Swal.fire('Aviso', 'El navegador bloqueó la vista previa emergente.', 'info');
     }
   }
+
   cerrarPreview() {
+    this.modalRef.hide();
+    this.onClose.emit();
     if (this.modalRefPreview) this.modalRefPreview.hide();
     if (this.previewSrc && typeof this.previewSrc === 'string' && this.previewSrc.startsWith('blob:')) {
       try {
         URL.revokeObjectURL(this.previewSrc);
-        console.log('🧹 Blob URL liberada');
       } catch (e) {
-        console.warn('No se pudo liberar la URL Blob:', e);
       }
     }
   }
@@ -371,12 +363,9 @@ export class ModalDocumentosComponent implements OnInit {
         const res: any = await this.api.getentregadocumentosanu(payload).toPromise();
         const result = Array.isArray(res) ? res[0] : res;
         if (result && result.error === 0) {
-          console.log('✅ Documento anulado: ' + f.edo_nomfil);
         } else {
-          console.warn('⚠️ No se pudo anular ' + f.edo_nomfil, (result && result.mensa) ? result.mensa : '');
         }
       } catch (err) {
-        console.error('❌ Error al anular ' + f.edo_nomfil, err);
       }
     }
     this.pendingDeletes = [];
@@ -406,7 +395,6 @@ export class ModalDocumentosComponent implements OnInit {
               this.loadExistingFiles();
             })
             .catch((err) => {
-              console.error('Error en eliminación:', err);
               this.uploading = false;
               Swal.fire('Error', 'Ocurrió un error al eliminar los archivos.', 'error');
             });
@@ -454,7 +442,6 @@ export class ModalDocumentosComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Error upload:', err);
         this.uploading = false;
         Swal.fire('Error', 'No se pudo subir los archivos.', 'error');
       }

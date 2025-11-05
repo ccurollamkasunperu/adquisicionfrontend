@@ -1,61 +1,60 @@
-
+<!-- Spinner general -->
 <div *ngIf="loading" class="loading-overlay">
-    <p style="position: absolute;bottom: 41%;">{{ txtlogspinner }}</p>
-    <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
-      <span class="sr-only">Cargando...</span>
-    </div>
+  <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+    <span class="sr-only">Cargando...</span>
+  </div>
+  <p class="text-light mt-3">{{ txtlogspinner }}</p>
 </div>
 
-<section class="auth-page-wrapper-2 py-4 position-relative d-flex align-items-center justify-content-center min-vh-100 bg-light">
-    <div class="container">
-        <div class="row g-0">
-            <div class="col-lg-5">
-                <div class="auth-card card bg-warning h-100 rounded-0 rounded-start border-0 d-flex align-items-center justify-content-center overflow-hidden">
-                    
-                        <img src="assets/images/helpdesk.svg" alt="" width="100%" />
-                        
-                    
-                </div>
-            </div>
-            <div class="col-lg-7">
-                <div class="card mb-0 rounded-0 rounded-end border-0">
-                    <div class="card-body p-4 p-sm-5 m-lg-4">
-                        <div class="text-center mt-2">
-                            <h5 class="text-warning fs-22"><b>SISTEMA DE ADQUISIONES</b></h5>
-                            <p class="text-muted">Inicia sesión para continuar</p>
-                        </div>
-                        <div class="p-2 mt-5">
-                            <form action="https://themesbrand.com/hybrix/html/index.html">
+<!-- Encabezado superior -->
+<header>
+  <a href="https://outlook.com/owa/trabajaperu.gob.pe" class="fw-semibold"><i class="ri-mail-line"></i> CORREO ELECTRÓNICO</a>
+  <a href="https://www.transparencia.gob.pe/enlaces/pte_transparencia_enlaces.aspx?id_entidad=13106&amp;id_tema=1&amp;ver=D#.XswBD8C23IX" class="fw-semibold"><i class="ri-user-fill"></i> PORTAL DE TRANSPARENCIA</a>
+  <a href="https://www.trabajaperu.gob.pe" class="fw-semibold"><i class="ri-global-line"></i> PÁGINA WEB</a>
+  <a href="https://boletin.trabajaperu.gob.pe" class="fw-semibold"><i class="ri-newspaper-line"></i> BOLETÍN INFORMATIVO</a>
+  <a href="https://intranet.llamkasunperu.gob.pe" class="fw-semibold"><i class="ri-dashboard-line"></i> INTRANET</a>
+  <a href="https://mesadeayuda.trabajaperu.gob.pe" class="fw-semibold"><i class="ri-team-fill"></i> MESA DE AYUDA</a>
+</header>
 
-                                <div class="mb-3">
-                                    <label for="loging" class="form-label">Usuario</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1"><i class="ri-user-3-line"></i></span>
-                                        <input type="text" class="form-control" [(ngModel)]="loging" name="loging" id="loging" placeholder="Usuario (sin @llamkasunperu.gob.pe)">
-                                    </div>
-                                </div>
+<!-- Contenido principal -->
+<div class="main-section">
+  <div class="login-container" #loginContainer>
+    <img src="assets/images/logo-short-log.png" alt="Llamkasun Perú Logo" class="img-fluid" style="width: 70%;" />
+    <p class="text-muted text-center mb-3 text-black fs-5">Ir a <span class="titulo-leckerli text-black">Sistema de Adquisiciones</span></p>
 
-                                <div class="mb-3">
-                                    <label class="form-label" for="passwd">Contraseña</label>
-                                    <div class="position-relative auth-pass-inputgroup overflow-hidden">
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon1"><i class="ri-lock-2-line"></i></span>
-                                            <input type="password" class="form-control pe-5 password-input" [(ngModel)]="passwd" name="passwd" id="passwd" placeholder="Contraseña actual">
-                                        </div>
-                                    </div>
-                                </div>
+    <form (submit)="IniciarSesion()" class="mt-3">
+      <div class="input-group mb-3">
+        <i class="ri-user-fill"></i>
+        <input [(ngModel)]="loging" name="loging" id="loging" placeholder="Usuario (sin @llamkasunperu.gob.pe)" type="text" required>
+      </div>
 
-                                <div class="mt-4">
-                                    <button class="btn btn-warning w-100" type="submit" (click)="IniciarSesion()">Iniciar Sesión</button>
-                                </div>
-                            </form>
+      <div class="input-group mb-3">
+        <i class="ri-key-fill"></i>
+        <input [(ngModel)]="passwd" name="passwd" id="passwd" placeholder="Contraseña actual" type="password" required>
+      </div>
 
-                        </div>
-                    </div>
-                    
-                </div>
-                
-            </div>
-        </div>
+      <button type="submit" class="btn-login">Iniciar Sesión</button>
+    </form>
+
+    <p class="pt-4 opacity-50 text-center">Creado con <span>❤</span> Por El Equipo de UFTI</p>
+  </div>
+
+  <div class="reminder-container" #reminderContainer>
+    <img src="assets/images/slider1.png" alt="Ilustración institucional" class="img-fluid rounded shadow-sm" />
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3 class="text-white">LLAMKASUN PERÚ</h3>
+      <p>Programa de empleo temporal.</p>
     </div>
-</section>
+    <div class="footer-section">
+      <h3 class="text-white">CONTÁCTENOS</h3>
+      <p><i class="fas fa-map-marker-alt"></i> Av. Salaverry 655, Piso 7</p>
+      <p><i class="fas fa-phone"></i> (01) 200-2940 / 0-800-10035</p>
+    </div>
+  </div>
+</footer>

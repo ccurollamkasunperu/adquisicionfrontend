@@ -75,28 +75,23 @@
         
         <div class="col-12">
           <label class="form-label">U. Orgánica <span class="text-danger">*</span></label>
-          <ng-select
-            class="form-select-sm mayus"
-            [(ngModel)]="orden.ard_id"
-            [searchable]="true"
-            placeholder="Seleccione"
-          >
+          <ng-select class="form-select-sm mayus" [(ngModel)]="orden.ard_id" [searchable]="true" placeholder="Seleccione" (change)="onAreaChange($event)">
             <ng-option *ngFor="let a of dataAreas" [value]="a.ard_id">{{ a.ard_descri }}</ng-option>
           </ng-select>
         </div>
         
         <div class="col-12">
-          <label class="form-label">Especialista</label>
-          <ng-select
-            class="form-select-sm mayus"
-            [(ngModel)]="orden.esp_id"
-            [searchable]="true"
-            placeholder="Seleccione"
-          >
-            <ng-option *ngFor="let e of dataEspecialistas" [value]="e.esp_id">{{ e.esp_nomcom }}</ng-option>
+          <label class="form-label">Especialista
+            <ng-container *ngIf="loadingEspecialista">
+              <span class="spinner-border spinner-border-sm text-primary ms-1" role="status" aria-hidden="true"></span>
+            </ng-container>
+          </label>
+          <ng-select class="form-select-sm mayus" [(ngModel)]="orden.esp_id" [searchable]="true" placeholder="Seleccione" [disabled]="loadingEspecialista">
+            <ng-option *ngFor="let e of dataEspecialistas" [value]="e.esp_id">
+              {{ e.esp_nomcom }}
+            </ng-option>
           </ng-select>
-        </div>
-        
+        </div>        
         <div class="col-1">
           <label class="form-label">SIAF <span class="text-danger">*</span></label>
           <input type="text" class="form-control form-control-sm" [(ngModel)]="orden.ord_nusiaf" (keypress)="soloNumeros($event)" maxlength="10" placeholder="00000" />
