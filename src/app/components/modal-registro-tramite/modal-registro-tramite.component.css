@@ -1,0 +1,79 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.form-control {
+    border: var(--tb-border-width) solid #d5d5d5;
+}
+
+.form-label {
+    margin-bottom: .0rem;
+}
+
+.row>* {
+    margin-top: 0.6rem;
+}
+
+.ng-select .ng-select-container {
+    min-height: 30px;
+    height: 30px;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+    min-height: 30px;
+    height: 30px;
+}
+
+fieldset {
+    border: 1px solid #dee2e6 !important;
+    border-radius: 4px;
+}
+
+legend {
+    font-size: 14px !important;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+input:disabled {
+    cursor: not-allowed;
+}
+
+/* Loader styles */
+.py-5 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+input[disabled],
+select[disabled],
+textarea[disabled],
+.ng-select-disabled .ng-select-container {
+  background-color: #f3f3f3 !important;
+  color: #555 !important;
+  cursor: not-allowed;
+  border-color: #ddd !important;
+  box-shadow: none;
+  opacity: 0.85;
+}
+
+input,
+select,
+textarea,
+.ng-select .ng-select-container {
+  transition: all 0.3s ease-in-out;
+}

@@ -5,16 +5,16 @@ import { ApiService } from 'src/app/services/api.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-modal-conformidad',
-  templateUrl: './modal-conformidad.component.html',
-  styleUrls: ['./modal-conformidad.component.css']
+  selector: 'app-modal-custodia',
+  templateUrl: './modal-custodia.component.html',
+  styleUrls: ['./modal-custodia.component.css']
 })
-export class ModalConformidadComponent implements OnInit {
+export class ModalCustodiaComponent implements OnInit {
   @Input() tramite: any;
   @Input() data: any;
   @Output() cancelClicked = new EventEmitter<void>();
 
-  titulopant = 'ARCHIVO DE CONFORMIDAD';
+  titulopant = 'ARCHIVO DE CUSTODIA';
   lic_id = '0';
   lid_id = '0';
   usu_id = '0';
@@ -47,7 +47,7 @@ export class ModalConformidadComponent implements OnInit {
       this.lid_id = String(this.tramite.lid_id);
       this.lic_id = String(this.tramite.lic_id);
       this.usu_id = String(localStorage.getItem('usuario') || '0');
-      const url = this.tramite.lid_doccnf ? String(this.tramite.lid_doccnf).trim() : '';
+      const url = this.tramite.lid_doccus ? String(this.tramite.lid_doccus).trim() : '';
 
       if (!url) {
         this.showGuardararchivo = true;
@@ -94,7 +94,7 @@ export class ModalConformidadComponent implements OnInit {
 
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Desea subir el archivo de conformidad?',
+      text: '¿Desea subir el archivo de custodia?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Sí, guardar'
@@ -102,7 +102,7 @@ export class ModalConformidadComponent implements OnInit {
       if (!result.isConfirmed) return;
 
       this.uploading = true;
-      this.api.getlibrodetcnf(formData).subscribe({
+      this.api.getlibrodetcus(formData).subscribe({
         next: (res: any) => {
           this.uploading = false;
           const ok = res && res[0] && res[0].error === 0;
@@ -151,7 +151,7 @@ export class ModalConformidadComponent implements OnInit {
 
 
   refrescarVista() {
-    if (!this.tramite || !this.tramite.lid_doccnf) return;
+    if (!this.tramite || !this.tramite.lid_doccus) return;
     this.safeUrl = null;
     this.verArchivo();
     Swal.fire('Refrescado', 'Vista actualizada correctamente', 'success');
@@ -175,7 +175,7 @@ export class ModalConformidadComponent implements OnInit {
         p_lid_observ: obs
       };
 
-      this.api.getlibrodetcnfanu(data).subscribe({
+      this.api.getlibrodetcusanu(data).subscribe({
         next: (r: any) => {
           const ok = r && r[0] && r[0].error === 0;
           Swal.fire(ok ? 'Éxito' : 'Error', r && r[0] ? r[0].mensa : '', ok ? 'success' : 'error')

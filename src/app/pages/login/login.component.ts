@@ -35,16 +35,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.api.validateSession('login');
-
-    // 🕓 Ejecuta una vez que Angular haya renderizado la vista
     setTimeout(() => this.equalizeHeights(), 500);
   }
 
   ngAfterViewInit(): void {
-    // 🔁 También aquí por seguridad
     this.equalizeHeights();
-
-    // 👁️ Si la imagen de la derecha aún no carga, recalcular al cargarla
     const img = this.reminderContainer.nativeElement.querySelector('img');
     if (img) {
       img.addEventListener('load', () => {

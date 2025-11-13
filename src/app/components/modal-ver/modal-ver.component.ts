@@ -36,18 +36,6 @@ export class ModalVerComponent implements OnInit {
   ngOnInit() {
     console.log(this.ticket.tkt_id);
     this.tkt_id = this.ticket.tkt_id;
-    this.loadArchivos();
-  }
-  loadArchivos() {
-    const data_post = {
-      p_arc_id: 0,
-      p_tkt_id: this.tkt_id ? parseInt(this.tkt_id) : 0,
-      p_rut_id: 1,
-      p_arc_activo: 1
-    };
-    this.api.getestadoordensel(data_post).subscribe((data: any[]) => {
-      this.dataArchivos = data || [];
-    });
   }
   verArchivo(item: any) {
     const rutaRelativa = item.rut_archiv.replace(/\\\\/g, '\\').replace(/\\/g, '/'); 

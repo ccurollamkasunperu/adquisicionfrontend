@@ -7,8 +7,9 @@ import { Router } from "@angular/router";
 })
 export class ApiService {
   constructor(private httpClient: HttpClient, private router: Router) { }
-  urlApi: string = "http://10.250.55.118/adquisicionbackend/public/api/";
-  urlApiAuth: string = "http://10.250.55.118/adquisicionbackend/public/api/";
+  urlApi: string = "http://10.250.55.118/fedatariobackend/public/api/";
+  urlApiAuth: string = "http://10.250.55.118/fedatariobackend/public/api/";
+
   getQuery(query: string) {
     const url = `${this.urlApi + query}`;
     return this.httpClient.get(url);
@@ -76,6 +77,160 @@ export class ApiService {
       })
     );
   }
+  getlibrocabsel(data: object) {
+    return this.postQuery("fedatario/librocabsel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrocabvigsel(data: object) {
+    return this.postQuery("fedatario/librocabvigsel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrocablis(data: object) {
+    return this.postQuery("fedatario/librocablis", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getestadolibrossel(data: object) {
+    return this.postQuery("fedatario/estadolibrossel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getestadotramitessel(data: object) {
+    return this.postQuery("fedatario/estadotramitessel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getdocumentossel(data: object) {
+    return this.postQuery("fedatario/documentossel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  gettramitesel(data: object) {
+    return this.postQuery("fedatario/tramitesel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getfedatariogra(data: object) {
+    return this.postQuery("fedatario/fedatariogra", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getfedatarioreg(data: object) {
+    return this.postQuery("fedatario/fedatarioreg", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrocabreg(data: object) {
+    return this.postQuery("fedatario/librocabreg", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getnumeroregistroreg(data: object) {
+    return this.postQuery("fedatario/numeroregistroreg", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrodetlis(data: object) {
+    return this.postQuery("fedatario/librodetlis", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrodetsel(data: object) {
+    return this.postQuery("fedatario/librodetsel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrodetgra(data: object) {
+    return this.postQuery("fedatario/librodetgra", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrodetanu(data: object) {
+    return this.postQuery("fedatario/librodetanu", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrodetcnf(data: object) {
+    return this.postQuery("fedatario/librodetcnf", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getlibrodetcus(data: object) {
+    return this.postQuery("fedatario/librodetcus", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getnumeroregistrosel(data: object) {
+    return this.postQuery("fedatario/numeroregistrosel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getnumeroregistroupd(data: object) {
+    return this.postQuery("fedatario/numeroregistroupd", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  gettrazabilidadreg(data: object) {
+    return this.postQuery("fedatario/trazabilidadreg", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getfedatariomovimientoreg(data: object) {
+    return this.postQuery("fedatario/fedatariomovimientoreg", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  getfedatariomovimientosel(data: object) {
+    return this.postQuery("fedatario/fedatariomovimientosel", data).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
   getareadenominacionsel(data: object) {
     return this.postQuery("area/areadenominacionsel", data).pipe(
       map((data) => {
@@ -83,191 +238,41 @@ export class ApiService {
       })
     );
   }
-  getespecialistasel(data: object) {
-    return this.postQuery("adquisicion/especialistasel", data).pipe(
+  getlibrodetcnfanu(data: object) {
+    return this.postQuery("fedatario/librodetcnfanu", data).pipe(
       map((data) => {
         return data;
       })
     );
   }
-  gettipobiensel(data: object) {
-    return this.postQuery("adquisicion/tipobiensel", data).pipe(
+  getlibrodetcusanu(data: object) {
+    return this.postQuery("fedatario/librodetcusanu", data).pipe(
       map((data) => {
         return data;
       })
     );
   }
-  getestadoordensel(data: object) {
-    return this.postQuery("adquisicion/estadoordensel", data).pipe(
+  getmastertipodocidesel(data: object) {
+    return this.postQuery("master/tipodocidesel", data).pipe(
       map((data) => {
         return data;
       })
     );
   }
-  getordenupd(data: object) {
-    return this.postQuery("adquisicion/ordenupd", data).pipe(
+  getfilebase64(data: object) {
+    return this.postQuery('files/base64-from-path', data).pipe(
       map((data) => {
         return data;
       })
     );
   }
-  getestadosiafsel(data: object) {
-    return this.postQuery("adquisicion/estadosiafsel", data).pipe(
+  getfileurl(data: object) {
+    return this.postQuery('files/getfileurl', data).pipe(
       map((data) => {
         return data;
       })
     );
   }
-  getordenimp(data: object) {
-    return this.postQuery("adquisicion/ordenimp", data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getordenlis(data: object) {
-    return this.postQuery('adquisicion/ordenlis', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getespecialistaard(data: object) {
-    return this.postQuery('adquisicion/especialistaard', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getentregalis(data: object) {
-    return this.postQuery('adquisicion/entregalis', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getentregagra(data: object) {
-    return this.postQuery('adquisicion/entregagra', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getentregadocumentossel(data: object) {
-    return this.postQuery('adquisicion/entregadocumentossel', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getentregadocumentoslis(data: object) {
-    return this.postQuery('adquisicion/entregadocumentoslis', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  gettipobiencontrolsel(data: object) {
-    return this.postQuery('adquisicion/tipobiencontrolsel', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getconformidadgra(data: object) {
-    return this.postQuery('adquisicion/conformidadgra', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getconformidademi(data: object) {
-    return this.postQuery('adquisicion/conformidademi', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getconformidadlis(data: object) {
-    return this.postQuery('adquisicion/conformidadlis', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getordensel(data: object) {
-    return this.postQuery('adquisicion/ordensel', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getentregadocumentosanu(data: object) {
-    return this.postQuery('adquisicion/entregadocumentosanu', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getentregadocumentosgra(data: object) {
-    return this.postQuery('adquisicion/entregadocumentosgra', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getconformidaddocumentogra(data: object) {
-    return this.postQuery('adquisicion/conformidaddocumentogra', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getconformidaddocumentoanu(data: object) {
-    return this.postQuery('adquisicion/conformidaddocumentoanu', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getordendocumentoreg(data: object) {
-    return this.postQuery('adquisicion/ordendocumentoreg', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  getordendocumentoanu(data: object) {
-    return this.postQuery('adquisicion/ordendocumentoanu', data).pipe(
-      map((data) => {
-        return data;
-      })
-    );
-  }
-  postFile(path: string, formData: FormData) {
-    const url = `${this.urlApi + path}`;
-    return this.httpClient.post(url, formData);
-  }
-  postEntregadocumentosGra(formData: FormData) {
-    const url = `${this.urlApi}adquisicion/entregadocumentosgra`;
-    return this.httpClient.post(url, formData);
-  }
-  postEntregadocumentosGraWithProgress(formData: FormData) {
-    const url = `${this.urlApi}adquisicion/entregadocumentosgra`;
-    return this.httpClient.post(url, formData, { reportProgress: true, observe: 'events' as 'events' });
-  }
-  getFileBlobByName(filename: string) {
-    const base = this.urlApi.replace('/public/api/', '/public/');
-    const url = `${base}uploads/${filename}`;
-    return this.httpClient.get(url, { responseType: 'blob' as 'json' });
-  }
-  getestadossel(data: object) {
-    return this.postQuery('ticket/getestadossel', data).pipe(map((data) => data));
-  }
-  getprioridadsel(data: object) {
-    return this.postQuery('ticket/getprioridadsel', data).pipe(map((data) => data));
-  }
-  gettemaayudasel(data: object) {
-    return this.postQuery('ticket/gettemaayudasel', data).pipe(map((data) => data));
-  }
+  //DESDE AQUI SE AGREGAN LAS RUTAS
+
 }

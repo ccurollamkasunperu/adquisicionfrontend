@@ -1,0 +1,123 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ viewMode ? 'VER REGISTRO' : (isEditMode ? 'EDITAR REGISTRO' : 'NUEVO REGISTRO') }}</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal()" [disabled]="loading"></button>
+</div>
+
+<div class="modal-body">
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Cargando...</span>
+    </div>
+    <p class="mt-3 text-muted">Cargando datos del formulario...</p>
+  </div>
+
+  <!-- Formulario -->
+  <fieldset class="border p-3 mb-3" *ngIf="!loading">
+    <legend class="w-auto" style="font-size: 14px; font-weight: bold;">DATOS DEL REGISTRO</legend>
+    
+    <div class="row">
+      <!-- Fecha -->
+      <div class="col-md-6">
+        <label for="lid_fecemi" class="form-label">Fecha</label>
+        <input [disabled]="bloquearCamposEdit" type="date" class="form-control form-control-sm" id="lid_fecemi" [(ngModel)]="lid_fecemi">
+      </div>
+      
+      <!-- Copias -->
+      <div class="col-md-6">
+        <label for="lid_numcop" class="form-label">Copias</label>
+        <input [disabled]="bloquearCamposEdit" type="number" class="form-control form-control-sm" id="lid_numcop" [(ngModel)]="lid_numcop" min="1">
+      </div>
+    </div>
+    
+    <div class="row">
+      <!-- U. Funcional -->
+      <div class="col-md-12">
+        <label for="ard_id" class="form-label">Unidad Funcional</label>
+        <ng-select [disabled]="bloquearCamposEdit" class="mayus" [(ngModel)]="ard_id" id="ard_id">
+            <ng-option value="0">Seleccionar Area Solicitante</ng-option>
+            <ng-option *ngFor="let item of dataArea" [value]="item.ard_id">{{item.ard_descri}}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="lid_numexp" class="form-label">Expediente</label>
+        <input [disabled]="bloquearCamposEdit" type="text" class="form-control form-control-sm text-uppercase" id="lid_numexp" [(ngModel)]="lid_numexp" maxlength="50">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="tdi_id" class="form-label">Administrado</label>
+        <ng-select [disabled]="bloquearCamposEdit" class="mayus" [(ngModel)]="tdi_id" id="tdi_id">
+          <ng-option value="0">Seleccione</ng-option>
+          <ng-option *ngFor="let item of dataTipoDoc" [value]="item.tdi_id">{{item.tdi_abrevi}}</ng-option>
+        </ng-select>
+      </div>
+      <div class="col-md-8">
+        <label for="lid_numdoc" class="form-label">Nro Documento</label>
+        <input [disabled]="bloquearCamposEdit" type="text" class="form-control form-control-sm" id="lid_numdoc" [(ngModel)]="lid_numdoc" (keypress)="onKeyPress($event)" (input)="onInputNumber($event, 'lid_numdoc')" inputmode="numeric" pattern="[0-9]*" maxlength="20">
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4">
+        <label for="lid_apepat" class="form-label">Apellido Paterno</label>
+        <input [disabled]="bloquearCamposEdit" type="text" class="form-control form-control-sm text-uppercase" oninput="this.value = this.value.toUpperCase()" id="lid_apepat" [ngModel]="lid_apepat" (input)="onInputText($event, 'lid_apepat')" maxlength="100">
+      </div>
+      <div class="col-md-4">
+        <label for="lid_apemat" class="form-label">Apellido Materno</label>
+        <input [disabled]="bloquearCamposEdit" type="text" class="form-control form-control-sm text-uppercase" oninput="this.value = this.value.toUpperCase()" id="lid_apemat" [ngModel]="lid_apemat" (input)="onInputText($event, 'lid_apemat')" maxlength="100">
+      </div>
+      <div class="col-md-4">
+        <label for="lid_nombre" class="form-label">Nombres</label>
+        <input [disabled]="bloquearCamposEdit" type="text" class="form-control form-control-sm text-uppercase" oninput="this.value = this.value.toUpperCase()" id="lid_nombre" [ngModel]="lid_nombre" (input)="onInputText($event, 'lid_nombre')" maxlength="100">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="tra_id" class="form-label">Trámite</label>
+        <ng-select [disabled]="bloquearCamposEdit" class="mayus" [(ngModel)]="tra_id" id="tra_id" (ngModelChange)="onTramiteChange($event)">
+          <ng-option [value]="0">Seleccione</ng-option>
+          <ng-option *ngFor="let item of dataTramites" [value]="item.tra_id">{{ item.tra_descri }}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="shouldShowDetalleTramit()">
+      <div class="col-md-12">
+        <label for="lid_tramit" class="form-label">Detalle trámite</label>
+        <input [disabled]="bloquearCamposEdit" type="text" class="form-control form-control-sm text-uppercase" id="lid_tramit"
+          [(ngModel)]="lid_tramit" maxlength="50">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="doc_id" class="form-label">Documento</label>
+        <ng-select [disabled]="bloquearCamposEdit" class="mayus" [(ngModel)]="doc_id" id="doc_id">
+          <ng-option value="0">Seleccione</ng-option>
+          <ng-option *ngFor="let item of dataDocumentos" [value]="item.doc_id">{{item.doc_descri}}</ng-option>
+        </ng-select>
+      </div>
+      <div class="col-md-6">
+        <label for="lid_docume" class="form-label">Nro Documento</label>
+        <input [disabled]="bloquearCamposEdit" type="text" class="form-control form-control-sm text-uppercase" id="lid_docume" oninput="this.value = this.value.toUpperCase()" [(ngModel)]="lid_docume" maxlength="50">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="lid_observ" class="form-label">Observación</label>
+        <textarea [disabled]="bloquearCamposEdit" class="form-control form-control-sm text-uppercase" id="lid_observ" oninput="this.value = this.value.toUpperCase()" [(ngModel)]="lid_observ" rows="2" maxlength="500"></textarea>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<div class="modal-footer">
+  <button *ngIf="!viewMode" type="button" class="btn btn-success btn-sm" (click)="guardarTramite()" [disabled]="loading">
+    <i class="ri-save-line"></i> Grabar
+  </button>
+  <button type="button" class="btn btn-danger btn-sm" (click)="cerrarModal()" [disabled]="loading">
+    <i class="ri-close-line"></i> Salir
+  </button>
+</div>

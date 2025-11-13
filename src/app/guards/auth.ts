@@ -32,6 +32,13 @@ export class AuthInterceptor implements HttpInterceptor {
         
         if (isUnauthenticated && this.router.url !== '/login') {
           localStorage.clear();
+          
+          // Ocultar todos los loading-overlay antes de mostrar el SweetAlert
+          const loadingOverlays = document.querySelectorAll('.loading-overlay');
+          loadingOverlays.forEach((overlay: HTMLElement) => {
+            overlay.style.display = 'none';
+          });
+          
           swal.fire({
             title: 'Sesión expirada',
             text: 'Tu sesión ha expirado. Por favor, vuelve a iniciar sesión.',

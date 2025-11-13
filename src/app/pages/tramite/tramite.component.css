@@ -111,3 +111,20 @@ i.ri-check-line.text-success.fw-bold {
     font-size: 15px;
     font-weight: 900 !important;
 }
+
+.table--wide td, .table--wide th {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.dt-right {
+  text-align: right;
+}
+
+p {    
+    margin-bottom: 0rem ;
+}
+
+input:disabled {
+  /* opacity: 0.5 !important; */
+  cursor: not-allowed;
+}

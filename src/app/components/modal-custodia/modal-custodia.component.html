@@ -6,17 +6,11 @@
 <div class="modal-body">
   <div class="row">
     <div class="col-12">
-      <!-- SUBIR ARCHIVO -->
       <div class="card card-animate" *ngIf="showGuardararchivo">
         <div class="card-body text-center">
-          <h5 class="fs-15 mb-3">Subir archivo de conformidad</h5>
+          <h5 class="fs-15 mb-3">Subir archivo de custodia</h5>
           <div class="input-group">
-            <input
-              type="file"
-              class="form-control"
-              (change)="onFileSelected($event)"
-              accept=".pdf"
-            />
+            <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf" />
           </div>
           <div class="mt-2 small text-muted" *ngIf="selectedFile">
             Seleccionado: {{ selectedFile?.name }}
@@ -24,7 +18,6 @@
         </div>
       </div>
 
-      <!-- ARCHIVO YA CARGADO -->
       <div class="card card-animate" *ngIf="showArc">
         <div class="card-body text-center">
           <div class="ratio ratio-16x9 mb-3 position-relative" *ngIf="showArc">
@@ -64,7 +57,7 @@
   </button>
 
   <button *ngIf="showArc" class="btn btn-warning btn-sm" (click)="anular()">
-    <i class="bx bx-trash"></i> Anular Conformidad
+    <i class="bx bx-trash"></i> Anular Custodia
   </button>
 
   <button class="btn btn-danger btn-sm" (click)="cerrarModal()">
